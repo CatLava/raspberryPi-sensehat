@@ -31,3 +31,44 @@ def disco():
         
         sense.set_pixel(x, y, (r, g, b))
         time.sleep(0.1)
+def flashlight():
+    for i in range(10):
+        o = sense.get_orientation()
+        pitch = int(o["pitch"] / 1.42)
+        roll = int(o["roll"] / 1.42)
+        yaw = int(o["yaw"] / 1.42)
+        for x in range(8):
+            for y in range(8):
+                sense.set_pixel(x, y, (pitch, roll, yaw))
+        time.sleep(1)
+        
+def temperature():
+    sense.show_message(str(round(sense.temperature,1))+" Celsius", text_colour=white, back_colour=off, scroll_speed=0.05)
+    
+def sensor_dump():
+    while True:
+        print(f"temperature: {sense.temperature}")
+        print(f"humidity: {sense.humidity}")
+        print(f"pressure: {sense.pressure}")
+        time.sleep(3)
+
+while True:
+    sense.stick.direction_up = humidity
+    sense.stick.direction_down = disco
+    sense.stick.direction_left = pressure
+    sense.stick.direction_right = temperature
+    acceleration = sense.get_accelerometer_raw()
+    x = acceleration['x']
+    y = acceleration['y']
+    z = acceleration['z']
+
+    x = abs(x)
+    y = abs(y)
+    z = abs(z)
+    if x > 2 or y > 2 or z > 2:
+        for i in range(2):
+            sense.show_message(str(round(sense.temperature,1))+" Celsius", text_colour=white, back_colour=off, scroll_speed=0.05)
+    else:
+        print("Use the joystick, or shake the Pi")
+        time.sleep(0.1)
+    sensor_dump()
