@@ -12,6 +12,8 @@ def humidity():
                        text_colour=white,
                        back_colour=off,
                        scroll_speed=0.05)
+    set_row_color("green")
+
 
 
 def pressure():
@@ -19,6 +21,8 @@ def pressure():
                            text_colour=red,
                            back_colour=off,
                            scroll_speed=0.05)
+        set_row_color("blue")
+
         
 def disco():
     for i in range(64):
@@ -44,14 +48,31 @@ def flashlight():
         
 def temperature():
     sense.show_message(str(round(sense.temperature,1))+" Celsius", text_colour=white, back_colour=off, scroll_speed=0.05)
+    set_row_color()
     
 def sensor_dump():
     while True:
-        print(f"temperature: {sense.temperature}")
-        print(f"humidity: {sense.humidity}")
-        print(f"pressure: {sense.pressure}")
+        print(str(round(sense.temperature,1)))
+        print(str(round(sense.humidity)))
+        print(str(round(sense.pressure)))
         time.sleep(3)
 
+def set_row_color(color: str = "red"):
+    RED = (255,0,0)
+    GREEN = (0, 255, 0)
+    BLUE = (0, 0, 255)
+
+    if color == "red":
+        for num in range(0,8):
+            sense.set_pixel(num, 0, RED)
+    if color == "blue":
+        for num in range(0,8):
+            sense.set_pixel(num, 4, BLUE)
+    else:
+        for num in range(0,8):
+            sense.set_pixel(num, 5, GREEN)
+        
+        
 while True:
     sense.stick.direction_up = humidity
     sense.stick.direction_down = disco
