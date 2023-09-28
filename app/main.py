@@ -1,6 +1,7 @@
 from sense_hat import SenseHat
 import time
 from random import randint
+from mqtt_helper import publish_message
 
 sense = SenseHat()
 white = (128, 128, 128)
@@ -52,9 +53,24 @@ def temperature():
     
 def sensor_dump():
     while True:
-        print(str(round(sense.temperature,1)))
-        print(str(round(sense.humidity)))
-        print(str(round(sense.pressure)))
+        temp = str(round(sense.temperature,1))
+        pressure_val = str(round(sense.pressure))
+        humidity_val = str(round(sense.humidity))
+        color_val = str(round(sense.colour))
+        compass = str(round(sense.compass))
+        print(temp)
+        print(pressure)
+        print(humidity)
+        print(color_val)
+        print(compass)
+        sense_data = {
+            "temp" : temp,
+            "pressure" : pressure_val,
+            "humidity" : humidity_val,
+            "color" : color_val,
+            "compass" : compass
+        }
+        publish_message(sense_data)
         time.sleep(3)
 
 def set_row_color(color: str = "red"):
