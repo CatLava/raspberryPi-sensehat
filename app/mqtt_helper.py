@@ -12,8 +12,10 @@ def on_connect(client, userdata, flags, response):
 client = mqtt.Client()
 client.on_connect = on_connect
 client.connect("localhost", 1883, 60)
+client.loop_start()
 
 def publish_message(message:dict):
     print("PUBLISHG message")
+    print(message)
     client.publish('raspberry/topic', payload=str(message), qos=1, retain=True)
-client.loop_forever()
+client.loop_stop()

@@ -14,6 +14,7 @@ def humidity():
                        back_colour=off,
                        scroll_speed=0.05)
     set_row_color("green")
+    publish_message({"joystick" : "up"}  )
 
 
 
@@ -23,6 +24,8 @@ def pressure():
                            back_colour=off,
                            scroll_speed=0.05)
         set_row_color("blue")
+        publish_message({"joystick" : "left"}  )
+
 
         
 def disco():
@@ -35,6 +38,8 @@ def disco():
         b = randint(0,255)
         
         sense.set_pixel(x, y, (r, g, b))
+        publish_message({"joystick" : "down"}  )
+
         time.sleep(0.1)
 def flashlight():
     for i in range(10):
@@ -50,24 +55,19 @@ def flashlight():
 def temperature():
     sense.show_message(str(round(sense.temperature,1))+" Celsius", text_colour=white, back_colour=off, scroll_speed=0.05)
     set_row_color()
+    publish_message({"joystick" : "right"}  )
+
     
 def sensor_dump():
     while True:
         temp = str(round(sense.temperature,1))
-        pressure_val = str(round(sense.pressure))
-        humidity_val = str(round(sense.humidity))
-        color_val = str(round(sense.colour))
+        pressure_val = str(round(sense.pressure,1))
+        humidity_val = str(round(sense.humidity,1))
         compass = str(round(sense.compass))
-        print(temp)
-        print(pressure)
-        print(humidity)
-        print(color_val)
-        print(compass)
         sense_data = {
             "temp" : temp,
             "pressure" : pressure_val,
             "humidity" : humidity_val,
-            "color" : color_val,
             "compass" : compass
         }
         publish_message(sense_data)
