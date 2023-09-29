@@ -1,4 +1,5 @@
 import paho.mqtt.client as mqtt
+import time
 
 def on_connect(client, userdata, flags, response):
     if response == 0:
@@ -16,6 +17,7 @@ client.loop_start()
 
 def publish_message(message:dict):
     print("PUBLISHG message")
+    message['timestamp'] = time.time()
     print(message)
     client.publish('raspberry/topic', payload=str(message), qos=1, retain=True)
 client.loop_stop()

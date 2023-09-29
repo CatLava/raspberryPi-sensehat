@@ -1,7 +1,7 @@
 from sense_hat import SenseHat
 import time
 from random import randint
-from mqtt_helper import publish_message
+from app.pi_publisher_mqtt import publish_message
 
 sense = SenseHat()
 white = (128, 128, 128)
